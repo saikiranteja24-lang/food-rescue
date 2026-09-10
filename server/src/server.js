@@ -92,16 +92,20 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`
-  🚀 ========================================================
-  🌱 Replate Backend Server Running in ${process.env.NODE_ENV || 'development'} mode
-  📡 Listening on: http://localhost:${PORT}
-  🤖 Groq AI Model: ${process.env.GROQ_MODEL || 'llama-3.1-8b-instant'}
-  🛡️ Health Check: http://localhost:${PORT}/api/health
-  ========================================================
-  `);
-});
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`
+    🚀 ========================================================
+    🌱 Replate Backend Server Running in ${process.env.NODE_ENV || 'development'} mode
+    📡 Listening on: http://localhost:${PORT}
+    🤖 Groq AI Model: ${process.env.GROQ_MODEL || 'llama-3.1-8b-instant'}
+    🛡️ Health Check: http://localhost:${PORT}/api/health
+    ========================================================
+    `);
+  });
+}
+
+export default app;
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
